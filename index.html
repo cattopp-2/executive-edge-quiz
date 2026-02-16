@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's Your Executive Edge? | Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #060649;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            line-height: 1.5;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .estimated-time {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .section-header {
+            background: #f8f8f8;
+            padding: 20px;
+            margin: -20px -20px 30px -20px;
+            border-left: 4px solid #060649;
+        }
+
+        .section-header h2 {
+            color: #060649;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .question {
+            margin-bottom: 35px;
+        }
+
+        .question-label {
+            display: block;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .required {
+            color: #666;
+            margin-left: 4px;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #060649;
+        }
+
+        .radio-group {
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .radio-item:hover {
+            background: #f8f8f8;
+        }
+
+        input[type="radio"] {
+            margin-right: 12px;
+            margin-top: 4px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #060649;
+        }
+
+        .radio-item label {
+            cursor: pointer;
+            font-size: 1rem;
+            color: #1a1a1a;
+            flex: 1;
+        }
+
+        .progress-bar {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px 40px;
+            border-bottom: 2px solid #f0f0f0;
+            z-index: 100;
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: #060649;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-previous {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-previous:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-next {
+            background: #B18046;
+            color: #ffffff;
+        }
+
+        .btn-next:hover {
+            background: #9a6d3a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(177, 128, 70, 0.4);
+        }
+
+        .btn-submit {
+            background: #B18046;
+            color: #ffffff;
+        }
+
+        .btn-submit:hover {
+            background: #9a6d3a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(177, 128, 70, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .results-page {
+            display: none;
+            padding: 40px;
+        }
+
+        .results-page.active {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #060649;
+        }
+
+        .results-hook {
+            font-size: 1.3rem;
+            color: #333;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .results-section {
+            margin-bottom: 30px;
+        }
+
+        .results-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #060649;
+        }
+
+        .results-section p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .results-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .results-section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .results-section li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .sticky-line {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #060649;
+            text-align: center;
+            padding: 25px;
+            background: #f8f8f8;
+            border-left: 4px solid #060649;
+            margin: 30px 0;
+        }
+
+        .quick-win {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .quick-win h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #060649;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #B18046;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #9a6d3a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(177, 128, 70, 0.2);
+        }
+
+        .page-indicator {
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-content {
+                padding: 25px;
+            }
+
+            .section-header {
+                margin: -15px -15px 20px -15px;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .results-page {
+                padding: 25px;
+            }
+
+            .sticky-line {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>What's Your Executive Edge?</h1>
+            <p>Discover which cognitive pattern is calling the shots — and how to reduce friction, protect energy, and follow through using systems designed to work with your brain, not against it.</p>
+            <p class="estimated-time">Estimated time: 2–3 minutes</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-text" id="progressText">Step 1 of 6</div>
+        </div>
+
+        <div class="form-content">
+            <form id="quizForm">
+                
+                <!-- PAGE 1: Lead Capture -->
+                <div class="page active" data-page="1">
+                    <div class="page-indicator">Page 1 of 6</div>
+                    <div class="section-header">
+                        <h2>Let's Get Started</h2>
+                        <p>Enter your details to receive your personalized results</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            First Name <span class="required">*</span>
+                        </label>
+                        <input type="text" name="first_name" required>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            Email Address <span class="required">*</span>
+                        </label>
+                        <input type="email" name="email" required>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <div></div>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Start Quiz</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 2: AWARENESS -->
+                <div class="page" data-page="2">
+                    <div class="page-indicator">Page 2 of 6</div>
+                    <div class="section-header">
+                        <h2>Awareness</h2>
+                        <p>How well do you understand your mental patterns and energy cycles?</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            1. I can identify when I'm most focused and build my work around that.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q1_a" name="q1" value="A" required>
+                                <label for="q1_a">Yes, consistently</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q1_b" name="q1" value="B">
+                                <label for="q1_b">Sometimes, but I forget to follow through</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q1_c" name="q1" value="C">
+                                <label for="q1_c">Rarely, I push through regardless</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q1_d" name="q1" value="D">
+                                <label for="q1_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            2. I recognize when I'm becoming overwhelmed before it derails my day.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q2_a" name="q2" value="A" required>
+                                <label for="q2_a">Yes, I notice early</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q2_b" name="q2" value="B">
+                                <label for="q2_b">Sometimes, but usually once it's already building</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q2_c" name="q2" value="C">
+                                <label for="q2_c">Rarely, I realize after the crash</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q2_d" name="q2" value="D">
+                                <label for="q2_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            3. I'm aware of how environments or people affect my mental energy.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q3_a" name="q3" value="A" required>
+                                <label for="q3_a">Very aware, and I adjust for it</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q3_b" name="q3" value="B">
+                                <label for="q3_b">Somewhat aware, but I still let it drain me</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q3_c" name="q3" value="C">
+                                <label for="q3_c">Rarely, I just adapt</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q3_d" name="q3" value="D">
+                                <label for="q3_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 3: ACTIVATION -->
+                <div class="page" data-page="3">
+                    <div class="page-indicator">Page 3 of 6</div>
+                    <div class="section-header">
+                        <h2>Activation</h2>
+                        <p>How you start and re-enter tasks without force or pressure</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            4. I can get started when it's appropriate, even if motivation is low.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q4_a" name="q4" value="A" required>
+                                <label for="q4_a">Yes, I have systems that support this</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q4_b" name="q4" value="B">
+                                <label for="q4_b">Sometimes, it depends on the task</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q4_c" name="q4" value="C">
+                                <label for="q4_c">Rarely, I delay until urgency kicks in</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q4_d" name="q4" value="D">
+                                <label for="q4_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            5. I have routines that help me re-enter tasks without force.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q5_a" name="q5" value="A" required>
+                                <label for="q5_a">Yes, solid ones that work</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q5_b" name="q5" value="B">
+                                <label for="q5_b">A few, but inconsistently</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q5_c" name="q5" value="C">
+                                <label for="q5_c">Not really, I keep trying new ones</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q5_d" name="q5" value="D">
+                                <label for="q5_d">None at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            6. I take action on things that matter without over-planning or self-pressure.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q6_a" name="q6" value="A" required>
+                                <label for="q6_a">Yes, I can move forward without friction</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q6_b" name="q6" value="B">
+                                <label for="q6_b">Sometimes, I need clarity first</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q6_c" name="q6" value="C">
+                                <label for="q6_c">Rarely, I get stuck planning</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q6_d" name="q6" value="D">
+                                <label for="q6_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 4: ADAPTABILITY -->
+                <div class="page" data-page="4">
+                    <div class="page-indicator">Page 4 of 6</div>
+                    <div class="section-header">
+                        <h2>Adaptability</h2>
+                        <p>How you respond to change and recover when plans shift</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            7. I can pivot without spiraling or blaming myself.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q7_a" name="q7" value="A" required>
+                                <label for="q7_a">Yes, pretty easily</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q7_b" name="q7" value="B">
+                                <label for="q7_b">Sometimes, but I need time</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q7_c" name="q7" value="C">
+                                <label for="q7_c">Rarely, it throws me off for days</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q7_d" name="q7" value="D">
+                                <label for="q7_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            8. I let go of plans when they're no longer aligned.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q8_a" name="q8" value="A" required>
+                                <label for="q8_a">Yes, I release and move on</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q8_b" name="q8" value="B">
+                                <label for="q8_b">Sometimes, but I wrestle with it</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q8_c" name="q8" value="C">
+                                <label for="q8_c">Rarely, I hold on too long</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q8_d" name="q8" value="D">
+                                <label for="q8_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            9. I recover when things don't go as expected.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q9_a" name="q9" value="A" required>
+                                <label for="q9_a">Yes, I reset efficiently</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q9_b" name="q9" value="B">
+                                <label for="q9_b">Sometimes, depending on the setback</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q9_c" name="q9" value="C">
+                                <label for="q9_c">Rarely, I struggle to reset</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q9_d" name="q9" value="D">
+                                <label for="q9_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 5: ACCOUNTABILITY -->
+                <div class="page" data-page="5">
+                    <div class="page-indicator">Page 5 of 6</div>
+                    <div class="section-header">
+                        <h2>Accountability</h2>
+                        <p>Follow-through without perfectionism or burnout</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            10. I consistently finish the projects I start.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q10_a" name="q10" value="A" required>
+                                <label for="q10_a">Yes, almost always</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q10_b" name="q10" value="B">
+                                <label for="q10_b">Sometimes, depending on context</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q10_c" name="q10" value="C">
+                                <label for="q10_c">Rarely, I get pulled by new ideas</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q10_d" name="q10" value="D">
+                                <label for="q10_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            11. I use systems (reviews, routines, check-ins) to stay on track.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q11_a" name="q11" value="A" required>
+                                <label for="q11_a">Yes, and they work</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q11_b" name="q11" value="B">
+                                <label for="q11_b">Sometimes, but inconsistently</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q11_c" name="q11" value="C">
+                                <label for="q11_c">Rarely, I keep trying new systems</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q11_d" name="q11" value="D">
+                                <label for="q11_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            12. I follow through without needing urgency or external pressure.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q12_a" name="q12" value="A" required>
+                                <label for="q12_a">Yes, I'm internally driven</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q12_b" name="q12" value="B">
+                                <label for="q12_b">Sometimes, external deadlines help</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q12_c" name="q12" value="C">
+                                <label for="q12_c">Rarely, I rely on others to push me</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q12_d" name="q12" value="D">
+                                <label for="q12_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-next" onclick="nextPage()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PAGE 6: ALIGNMENT -->
+                <div class="page" data-page="6">
+                    <div class="page-indicator">Page 6 of 6</div>
+                    <div class="section-header">
+                        <h2>Alignment</h2>
+                        <p>Do your decisions match your capacity, season, and values?</p>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            13. I check in with my nervous system before saying yes.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q13_a" name="q13" value="A" required>
+                                <label for="q13_a">Yes, consistently</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q13_b" name="q13" value="B">
+                                <label for="q13_b">Sometimes, but pressure overrides it</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q13_c" name="q13" value="C">
+                                <label for="q13_c">Rarely, I default to yes</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q13_d" name="q13" value="D">
+                                <label for="q13_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            14. My calendar reflects my actual priorities, not just obligations.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q14_a" name="q14" value="A" required>
+                                <label for="q14_a">Yes, my schedule matches my values</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q14_b" name="q14" value="B">
+                                <label for="q14_b">Somewhat, but obligations creep in</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q14_c" name="q14" value="C">
+                                <label for="q14_c">Rarely, my calendar controls me</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q14_d" name="q14" value="D">
+                                <label for="q14_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <label class="question-label">
+                            15. I adjust goals based on capacity, not just what I "should" do.
+                        </label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="q15_a" name="q15" value="A" required>
+                                <label for="q15_a">Yes, I adapt to my season</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q15_b" name="q15" value="B">
+                                <label for="q15_b">Sometimes, but guilt interferes</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q15_c" name="q15" value="C">
+                                <label for="q15_c">Rarely, I push through anyway</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="q15_d" name="q15" value="D">
+                                <label for="q15_d">Not at all</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navigation-buttons">
+                        <button type="button" class="btn btn-previous" onclick="previousPage()">Previous</button>
+                        <button type="button" class="btn btn-submit" onclick="submitForm(event)">See My Results</button>
+                    </div>
+
+                    <div class="loading" id="loading">
+                        <p>Calculating your results...</p>
+                    </div>
+                </div>
+
+            </form>
+
+            <!-- RESULTS PAGES -->
+
+            <!-- Result 1: The Scattered Visionary -->
+            <div class="results-page" id="result-scattered-visionary">
+                <div class="results-header">
+                    <h2>The Scattered Visionary</h2>
+                    <p class="results-hook">You're full of ideas, insight, and vision — but momentum can scatter without support.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Understanding Your Pattern</h3>
+                    <p>This pattern isn't about a lack of focus. It reflects a mind that moves quickly, sees connections early, and generates ideas faster than most systems are built to hold. When there isn't enough external structure, your attention naturally moves on before things feel finished. Over time, this can feel frustrating, not because you don't care, but because your momentum doesn't have anywhere stable to land. Nothing here needs fixing. It needs anchoring.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Strengths</h3>
+                    <ul>
+                        <li>Creative and imaginative</li>
+                        <li>Big-picture thinker</li>
+                        <li>Quick to initiate</li>
+                    </ul>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Challenges</h3>
+                    <ul>
+                        <li>Overcommitting</li>
+                        <li>Difficulty finishing</li>
+                        <li>Attention pulled forward</li>
+                    </ul>
+                </div>
+
+                <div class="quick-win">
+                    <h4>Quick Win</h4>
+                    <p>Choose one idea that already feels alive and give it a clear container before starting anything new.</p>
+                </div>
+
+                <div class="sticky-line">
+                    Your ideas are your superpower — when anchored in focus.
+                </div>
+
+                <div class="cta-section">
+                    <p>The Executive Edge™ Integration Workbook can help you create anchors that protect your creativity.</p>
+                    <a href="#" class="cta-button">Get The Workbook</a>
+                </div>
+            </div>
+
+            <!-- Result 2: The Overwhelmed High-Achiever -->
+            <div class="results-page" id="result-overwhelmed-achiever">
+                <div class="results-header">
+                    <h2>The Overwhelmed High-Achiever</h2>
+                    <p class="results-hook">You get things done — often at the cost of your peace and energy.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Understanding Your Pattern</h3>
+                    <p>This pattern forms when responsibility becomes a default setting. You're capable, reliable, and often the person others lean on, which means your capacity gets quietly overextended. You don't struggle with productivity. You struggle with carrying too much for too long without relief. The exhaustion you feel isn't a failure of discipline. It's a sign that sustainability hasn't been built into the system yet.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Strengths</h3>
+                    <ul>
+                        <li>Dependable</li>
+                        <li>Driven</li>
+                        <li>Resilient</li>
+                    </ul>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Challenges</h3>
+                    <ul>
+                        <li>Burnout</li>
+                        <li>Perfectionism</li>
+                        <li>Overcommitting</li>
+                    </ul>
+                </div>
+
+                <div class="quick-win">
+                    <h4>Quick Win</h4>
+                    <p>Identify one obligation that costs more than it returns and consciously release it.</p>
+                </div>
+
+                <div class="sticky-line">
+                    Productivity isn't your problem — sustainability is.
+                </div>
+
+                <div class="cta-section">
+                    <p>The Executive Edge™ Integration Workbook can help you protect capacity without losing momentum.</p>
+                    <a href="#" class="cta-button">Get The Workbook</a>
+                </div>
+            </div>
+
+            <!-- Result 3: The Flexible Avoider -->
+            <div class="results-page" id="result-flexible-avoider">
+                <div class="results-header">
+                    <h2>The Flexible Avoider</h2>
+                    <p class="results-hook">You adapt easily, but flexibility can quietly replace follow-through.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Understanding Your Pattern</h3>
+                    <p>This pattern is rooted in adaptability, not avoidance. You're good at adjusting, staying open, and responding in the moment, which can make rigid systems feel restrictive. Without a few intentional anchors, flexibility can slowly turn into drift, where progress feels inconsistent even though effort is present. This isn't about forcing structure. It's about choosing stability so your adaptability has somewhere to return to.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Strengths</h3>
+                    <ul>
+                        <li>Resilient</li>
+                        <li>Easygoing</li>
+                        <li>Adaptive</li>
+                    </ul>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Challenges</h3>
+                    <ul>
+                        <li>Inconsistent momentum</li>
+                        <li>Avoidance of structure</li>
+                    </ul>
+                </div>
+
+                <div class="quick-win">
+                    <h4>Quick Win</h4>
+                    <p>Choose one stabilizing commitment this week and treat it as non-negotiable.</p>
+                </div>
+
+                <div class="sticky-line">
+                    Your gift is adaptability — your growth comes through grounded consistency.
+                </div>
+
+                <div class="cta-section">
+                    <p>The Executive Edge™ Integration Workbook can help you use structure as support, not pressure.</p>
+                    <a href="#" class="cta-button">Get The Workbook</a>
+                </div>
+            </div>
+
+            <!-- Result 4: The Future-Focused Reactor -->
+            <div class="results-page" id="result-future-reactor">
+                <div class="results-header">
+                    <h2>The Future-Focused Reactor</h2>
+                    <p class="results-hook">You see what's coming — but reacting quickly can keep you in cycles.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Understanding Your Pattern</h3>
+                    <p>This pattern reflects strong foresight and anticipatory awareness. Your nervous system is tuned to what's next, which helps you respond quickly to change. Over time, constant adjustment can prevent things from settling long enough to integrate. This isn't a problem with vision or speed. It's a signal that decisions may be happening before there's space to fully choose.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Strengths</h3>
+                    <ul>
+                        <li>Visionary</li>
+                        <li>Anticipatory</li>
+                        <li>Fast-moving</li>
+                    </ul>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Challenges</h3>
+                    <ul>
+                        <li>Impulsivity</li>
+                        <li>Constant pivoting</li>
+                        <li>Difficulty settling</li>
+                    </ul>
+                </div>
+
+                <div class="quick-win">
+                    <h4>Quick Win</h4>
+                    <p>Pause before your next decision and ask, "Does this support my long game?"</p>
+                </div>
+
+                <div class="sticky-line">
+                    Your gift is foresight — your power comes through patience.
+                </div>
+
+                <div class="cta-section">
+                    <p>The Executive Edge™ Integration Workbook can help you build pause points that protect clarity.</p>
+                    <a href="#" class="cta-button">Get The Workbook</a>
+                </div>
+            </div>
+
+            <!-- Result 5: The Inner CEO-in-Progress -->
+            <div class="results-page" id="result-inner-ceo">
+                <div class="results-header">
+                    <h2>The Inner CEO-in-Progress</h2>
+                    <p class="results-hook">You're learning to balance vision, structure, and flow in real time.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Understanding Your Pattern</h3>
+                    <p>This pattern reflects a transition phase. You're becoming more aware of how you operate and are beginning to lead yourself more intentionally. Old habits no longer fit, but new systems aren't fully installed yet. That in-between can feel uncomfortable, even when things are improving. This doesn't mean you're behind. It means you're stabilizing the foundation your next level will rest on.</p>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Strengths</h3>
+                    <ul>
+                        <li>Self-aware</li>
+                        <li>Balanced</li>
+                        <li>Open to growth</li>
+                    </ul>
+                </div>
+
+                <div class="results-section">
+                    <h3>Your Challenges</h3>
+                    <ul>
+                        <li>Still stabilizing habits</li>
+                        <li>Occasional self-doubt</li>
+                    </ul>
+                </div>
+
+                <div class="quick-win">
+                    <h4>Quick Win</h4>
+                    <p>Choose one daily ritual that anchors you and protect it this week.</p>
+                </div>
+
+                <div class="sticky-line">
+                    You're not behind — you're building your foundation.
+                </div>
+
+                <div class="cta-section">
+                    <p>The Executive Edge™ Integration Workbook can help you strengthen your internal systems.</p>
+                    <a href="#" class="cta-button">Get The Workbook</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 6;
+
+        // Navigation functions
+        function nextPage() {
+            if (currentPage < totalPages) {
+                const currentPageElement = document.querySelector(`.page[data-page="${currentPage}"]`);
+                const requiredFields = currentPageElement.querySelectorAll('[required]');
+                let allValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (field.type === 'radio') {
+                        const radioGroup = currentPageElement.querySelectorAll(`[name="${field.name}"]`);
+                        const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+                        if (!isChecked) {
+                            allValid = false;
+                            field.closest('.question').style.borderLeft = '4px solid #060649';
+                            field.closest('.question').style.paddingLeft = '15px';
+                        } else {
+                            field.closest('.question').style.borderLeft = 'none';
+                            field.closest('.question').style.paddingLeft = '0';
+                        }
+                    } else if (field.type === 'text' || field.type === 'email') {
+                        if (!field.value.trim()) {
+                            allValid = false;
+                            field.style.borderColor = '#060649';
+                            field.style.borderWidth = '2px';
+                        } else {
+                            field.style.borderColor = '#e0e0e0';
+                        }
+                    }
+                });
+                
+                if (!allValid) {
+                    alert('Please answer all questions before continuing.');
+                    const firstInvalid = currentPageElement.querySelector('[required]:invalid, [required][style*="border-color: rgb(6, 6, 73)"]');
+                    if (firstInvalid) {
+                        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+                
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.remove('active');
+                currentPage++;
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.remove('active');
+                currentPage--;
+                document.querySelector(`.page[data-page="${currentPage}"]`).classList.add('active');
+                updateProgress();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentPage / totalPages) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `Step ${currentPage} of ${totalPages}`;
+        }
+
+        // Form submission and scoring
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('quizForm');
+            const loading = document.getElementById('loading');
+            
+            loading.classList.add('active');
+
+            // Collect form data
+            const formData = new FormData(form);
+            const data = {};
+
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+
+            // Calculate score
+            const scores = { A: 0, B: 0, C: 0, D: 0 };
+            
+            for (let i = 1; i <= 15; i++) {
+                const answer = data[`q${i}`];
+                if (answer) {
+                    scores[answer]++;
+                }
+            }
+
+            // Determine result
+            let resultType = '';
+            const maxScore = Math.max(scores.A, scores.B, scores.C, scores.D);
+            
+            // Check if balanced (no clear majority)
+            const scoresArray = Object.values(scores);
+            const allSimilar = scoresArray.every(score => Math.abs(score - scoresArray[0]) <= 2);
+            
+            if (allSimilar) {
+                resultType = 'inner-ceo';
+            } else if (scores.A === maxScore) {
+                resultType = 'scattered-visionary';
+            } else if (scores.B === maxScore) {
+                resultType = 'overwhelmed-achiever';
+            } else if (scores.C === maxScore) {
+                resultType = 'flexible-avoider';
+            } else if (scores.D === maxScore) {
+                resultType = 'future-reactor';
+            }
+
+            // Add result to data
+            data.result_type = resultType;
+            data.scores = scores;
+            data.timestamp = new Date().toISOString();
+
+            console.log('Quiz data:', data);
+
+            try {
+                // PLACEHOLDER - Replace with your Make.com webhook URL
+                const webhookUrl = 'YOUR_WEBHOOK_URL_HERE';
+                
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok || webhookUrl === 'YOUR_WEBHOOK_URL_HERE') {
+                    // Show results (even if webhook is placeholder for testing)
+                    showResults(resultType);
+                } else {
+                    throw new Error('Server responded with error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                // Still show results for testing purposes
+                showResults(resultType);
+            }
+        }
+
+        function showResults(resultType) {
+            // Hide all pages and form
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Hide progress bar
+            document.querySelector('.progress-bar').style.display = 'none';
+            
+            // Show correct result page
+            const resultPage = document.getElementById(`result-${resultType}`);
+            if (resultPage) {
+                resultPage.classList.add('active');
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize progress
+        updateProgress();
+    </script>
+</body>
+</html>
