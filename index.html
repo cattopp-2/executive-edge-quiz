@@ -1240,7 +1240,7 @@
 
             try {
                 // PLACEHOLDER - Replace with your Make.com webhook URL
-                const webhookUrl = 'YOUR_WEBHOOK_URL_HERE';
+                const webhookUrl = 'https://hook.us2.make.com/aaoxgm34sm64d858blalxslj5tne2bh0';
                 
                 const response = await fetch(webhookUrl, {
                     method: 'POST',
@@ -1250,7 +1250,7 @@
                     body: JSON.stringify(data)
                 });
 
-                if (response.ok || webhookUrl === 'YOUR_WEBHOOK_URL_HERE') {
+                if (response.ok) {
                     // Show results (even if webhook is placeholder for testing)
                     showResults(resultType);
                 } else {
